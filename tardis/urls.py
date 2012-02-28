@@ -11,7 +11,6 @@ from tardis.tardis_portal.forms import RegistrationForm
 
 from django.http import HttpResponseRedirect, HttpResponse
 
-import django_jasmine.urls
 
 def getTardisApps():
     return map(lambda app: app.split('.').pop(),
@@ -205,10 +204,14 @@ urlpatterns = patterns(
     # Token login
     (r'^token/', include(token_urls)),
 
-    # Jasmine JavaScript Tests
-    (r'^jasmine/', include(django_jasmine.urls)),
-
 )
+
+if 'django_jasmine' in settings.INSTALLED_APPS:
+    import django_jasmine.urls
+    urlpatterns += patterns('',
+        # Jasmine JavaScript Tests
+        (r'^jasmine/', include(django_jasmine.urls)),
+    )
 
 # Handle static files from /static
 urlpatterns += staticfiles_urlpatterns()
