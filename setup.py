@@ -29,5 +29,10 @@ setup(
         'pysolr',
         'beautifulsoup',
         'south',
+        'celery',
+        'django-celery',
+        'django-kombu',
+        'pytz',
+        'html2text',
         ],
 )
