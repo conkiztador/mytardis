@@ -2186,23 +2186,17 @@ def remove_experiment_access_group(request, experiment_id, group_id):
 def stats(request):
 
     # stats
-    public_datafiles = 0
-    #public_datafiles = Dataset_File.objects.filter()
-    public_experiments = Experiment.objects.filter()
 
-    size = 0
-#    for df in public_datafiles:
-#        try:
-#            size = size + long(df.size)
-#        except:
-#            pass
-
-    public_datafile_size = size
+    public_datafiles = Dataset_File.objects.all()
+    
+    public_datafile_count = public_datafiles.count()
+    public_experiment_count = Experiment.objects.count()
+    public_datafile_total_size = sum([int(df.size) for df in public_datafiles])
 
     # using count() is more efficient than using len() on a query set
-    c = Context({'public_datafiles': public_datafiles,
-                'public_experiments': public_experiments.count(),
-                'public_datafile_size': public_datafile_size})
+    c = Context({'public_datafiles': public_datafile_count,
+                'public_experiments': public_experiment_count,
+                'public_datafile_size': public_datafile_total_size})
     return HttpResponse(render_response_index(request,
                         'tardis_portal/stats.html', c))
 
