@@ -43,7 +43,7 @@ import httplib2
 from django.conf import settings
 from django.core.urlresolvers import reverse
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger(__name__)
 
 #
 # For watching over things on the provider side of the 

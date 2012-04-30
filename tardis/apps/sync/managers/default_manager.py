@@ -48,8 +48,7 @@ from tardis.tardis_portal.MultiPartForm import MultiPartForm
 
 from ..transfer_service import TransferService
 
-import logging
-logger = logging.getLogger('tardis.mecat')
+logger = logging.getLogger(__name__)
 
 #
 # For watching over things on the provider side of the 

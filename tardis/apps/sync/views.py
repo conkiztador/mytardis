@@ -52,7 +52,7 @@ from tardis.apps.sync.forms import FileTransferRequestForm
 
 from transfer_service import TransferService
 
-logger = logging.getLogger('tardis.mecat')
+logger = logging.getLogger(__name__)
 
 
 def client_key_required(f):
