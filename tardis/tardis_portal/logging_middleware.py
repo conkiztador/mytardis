@@ -35,7 +35,7 @@ import logging
 
 class LoggingMiddleware(object):
     def __init__(self):
-        self.logger = logging.getLogger(__name__)
+        self.logger = logging.getLogger('system.request')
 
     def process_response(self, request, response):
         try:
