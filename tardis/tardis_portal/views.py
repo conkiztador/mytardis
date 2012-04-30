@@ -792,6 +792,9 @@ def _registerExperimentDocument(filename, created_by, expid=None,
     except AttributeError:
         pass
 
+    # Not found exception falls through
+    experiment = Experiment.objects.get(pk=eid)
+
     if auth_key:
         for owner in owners:
             # for each PI
@@ -810,9 +813,8 @@ def _registerExperimentDocument(filename, created_by, expid=None,
             # if exist, create ACL
             if owner_user:
                 logger.debug('registering owner: ' + owner)
-                e = Experiment.objects.get(pk=eid)
 
-                acl = ExperimentACL(experiment=e,
+                acl = ExperimentACL(experiment=experiment,
                                     pluginId=django_user,
                                     entityId=str(owner_user.id),
                                     canRead=True,
@@ -821,6 +823,15 @@ def _registerExperimentDocument(filename, created_by, expid=None,
                                     isOwner=True,
                                     aclOwnershipType=ExperimentACL.OWNER_OWNED)
                 acl.save()
+
+    # finally, always add acl for admin group
+    group, created = Group.objects.get_or_create(name='admin')
+    acl = ExperimentACL(experiment=experiment,
+                        pluginId=django_group,
+                        entityId=str(group.id),
+                        canRead=True,
+                        aclOwnershipType=ExperimentACL.SYSTEM_OWNED)
+    acl.save()
 
     return eid
 
